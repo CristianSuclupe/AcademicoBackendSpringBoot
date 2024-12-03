@@ -11,8 +11,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class AuthController {
 
     @PostMapping("login")
-    public String login(@RequestBody String entity) {
-        return entity;
+    public String login() {
+        return "AuthFuncionando";
     }
+
+    @PostMapping("register")
+    public String register(@RequestBody String entity) {
+        return "Te has registrado";
+    }
+    
     
 }

@@ -10,11 +10,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "Persons")
 public class Person {
@@ -38,7 +42,7 @@ public class Person {
     private String dni;
 
     @Size(min = 9, max = 9)
-    private String numberPhone;
+    private String phoneNumber;
 
     private String address;
 

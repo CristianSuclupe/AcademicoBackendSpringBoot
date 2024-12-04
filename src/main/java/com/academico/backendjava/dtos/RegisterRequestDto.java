@@ -1,5 +1,7 @@
 package com.academico.backendjava.dtos;
 
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,5 +18,10 @@ public class RegisterRequestDto {
     private String dni;
     private String phoneNumber;
     private String address;
-    private String birthday;
+    private Date birthday;
+    private String email;
+    private String password;
+    private String role;
+    private String specialization;
+
 }

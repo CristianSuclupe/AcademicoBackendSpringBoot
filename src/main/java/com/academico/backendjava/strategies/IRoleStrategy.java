@@ -5,4 +5,5 @@ import com.academico.backendjava.entities.Person;
 
 public interface IRoleStrategy {
     void createRole(Person person, RegisterRequestDto request);
+    String getRoleName();
 }

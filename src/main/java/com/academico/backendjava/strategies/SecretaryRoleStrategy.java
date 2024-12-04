@@ -23,4 +23,9 @@ public class SecretaryRoleStrategy implements IRoleStrategy{
         secretaryRepository.save(secretary);
     }
 
+    @Override
+    public String getRoleName() {
+        return "ROLE_SECRETARY";
+    }
+
 }

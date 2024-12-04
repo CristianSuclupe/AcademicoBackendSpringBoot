@@ -27,4 +27,9 @@ public class TeacherRoleStrategy implements IRoleStrategy{
         teacherRepository.save(teacher);
     }
 
+    @Override
+    public String getRoleName() {
+        return "ROLE_TEACHER";
+    }
+
 }

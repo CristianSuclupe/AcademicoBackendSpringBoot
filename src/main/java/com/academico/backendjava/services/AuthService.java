@@ -56,7 +56,7 @@ public class AuthService implements IAuthService{
     @Transactional
     public AuthResponseDto register(RegisterRequestDto request) {
 
-        Optional<Role> optionalRole =  roleRepository.findByName("ROLE_" + request.getRole());
+        Optional<Role> optionalRole =  roleRepository.findByName("ROLE_" + request.getRole().toUpperCase());
         Role role = optionalRole.orElseThrow(() -> new IllegalArgumentException("Role invalido"));
         Person person = Person.builder()
             .firstName(request.getFirstName())

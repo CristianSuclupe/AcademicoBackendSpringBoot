@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.academico.backendjava.dtos.AuthResponseDto;
 import com.academico.backendjava.dtos.LoginRequestDto;
+import com.academico.backendjava.dtos.LoginResponseDto;
 import com.academico.backendjava.dtos.RegisterRequestDto;
 import com.academico.backendjava.services.AuthService;
 
@@ -24,7 +25,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("login")
-    public ResponseEntity<AuthResponseDto> login(@RequestBody LoginRequestDto request) {
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto request) {
         return ResponseEntity.ok(authService.login(request));
     }
 

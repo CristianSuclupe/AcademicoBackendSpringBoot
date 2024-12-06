@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.academico.backendjava.dtos.AuthResponseDto;
 import com.academico.backendjava.dtos.LoginRequestDto;
+import com.academico.backendjava.dtos.LoginResponseDto;
 import com.academico.backendjava.dtos.RegisterRequestDto;
 import com.academico.backendjava.entities.Person;
 import com.academico.backendjava.entities.Role;
@@ -46,12 +47,12 @@ public class AuthService implements IAuthService{
 
 
     @Override
-    public AuthResponseDto login(LoginRequestDto request) {
+    public LoginResponseDto login(LoginRequestDto request) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
             UserDetails user = userRepository.findByEmail(request.getUsername()).orElseThrow();
             String token = jwtService.getToken(user);
-            return AuthResponseDto.builder()
+            return LoginResponseDto.builder()
                 .token(token)
                 .build();
         }
@@ -95,7 +96,7 @@ public class AuthService implements IAuthService{
             roleStrategy.createRole(person, request);
 
             return AuthResponseDto.builder()
-                .token(jwtService.getToken(user))
+                .message("Usuario registrado con exito!")
                 .build();
         }
         catch(Exception e) {

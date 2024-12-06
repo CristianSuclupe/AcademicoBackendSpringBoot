@@ -1,5 +1,4 @@
 package com.academico.backendjava.dtos;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,6 +8,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthResponseDto {
-    private String message;
+public class LoginResponseDto {
+    private String token;
 }

@@ -9,10 +9,9 @@ import lombok.Data;
 
 @Data
 @Builder
-public class ErrorDto {
-    
+public class ArgumentNotValidationError {
+
     private Integer statusCode;
     private HttpStatus status;
-    private String message;
-
+    private Map<String, String> message;
 }

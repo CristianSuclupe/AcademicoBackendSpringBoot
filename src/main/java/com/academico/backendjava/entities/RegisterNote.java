@@ -1,15 +1,8 @@
 package com.academico.backendjava.entities;
 
-import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,10 +10,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,26 +26,26 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Users")
-public class User implements UserDetails {
+@Table(name = "RegisterNotes")
+public class RegisterNote {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID userId;
-
-    @Column(unique = true, nullable = false)
-    private String email;
+    private UUID registerNoteId;
 
     @Column(nullable = false)
-    private String password;
+    @NotNull
+    @DecimalMin(value = "0.0", inclusive = true, message = "El puntaje debe ser mayor o igual a 0")
+    @DecimalMax(value = "20.0", inclusive = true, message = "El puntaje debe ser menor o igual a 20")
+    private Float score;
 
     @ManyToOne
-    @JoinColumn(name = "role_id", nullable = false)
-    private Role role;
+    @JoinColumn(name = "academic_product_id")
+    private AcademicProduct academicProduct;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "person_id", nullable = false)
-    private Person person;
+    @ManyToOne
+    @JoinColumn(name = "student_id")
+    private Student student;
 
     @Column(nullable = false)
     private boolean enable;
@@ -69,15 +64,4 @@ public class User implements UserDetails {
     protected void onUpdate() {
         updateAt = new Date();
     }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.getName()));
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
 }

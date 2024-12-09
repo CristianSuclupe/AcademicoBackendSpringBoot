@@ -34,7 +34,7 @@ public class Teacher {
     @JoinColumn(name = "person_id", nullable = false)
     private Person person;
 
-    @NotBlank
+    @NotBlank(message = "Debe ingresar la especialización del docente")
     @Column(nullable = false)
     private String specialization;
 

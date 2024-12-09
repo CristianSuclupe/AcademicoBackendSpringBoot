@@ -3,15 +3,14 @@ package com.academico.backendjava.entities;
 import java.util.Date;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -22,24 +21,30 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "Students")
-public class Student {
+@Table(name = "AcademicProducts")
+public class AcademicProduct {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long studentId;
+    private Long academicProductId;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "person_id", nullable = false)
-    private Person person;
+    @Column(nullable = false)
+    private Date deadLine;
 
-    @OneToMany(mappedBy = "student")
+    @Column(nullable = false)
+    private String name;
+
+    private Float percentage;
+
+    @ManyToOne
+    @JoinColumn(name = "class_id", nullable = false)
+    private Class class_;
+
+    @OneToMany(mappedBy = "academicProduct")
     private List<RegisterNote> registerNotes;
-
-    @OneToMany(mappedBy = "student")
-    private List<Register> registers;
 
     @Column(nullable = false)
     private boolean enable;
@@ -58,4 +63,5 @@ public class Student {
     protected void onUpdate() {
         updateAt = new Date();
     }
+
 }

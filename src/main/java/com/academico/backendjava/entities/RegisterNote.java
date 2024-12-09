@@ -40,11 +40,11 @@ public class RegisterNote {
     private Float score;
 
     @ManyToOne
-    @JoinColumn(name = "academic_product_id")
+    @JoinColumn(name = "academic_product_id", nullable = false)
     private AcademicProduct academicProduct;
 
     @ManyToOne
-    @JoinColumn(name = "student_id")
+    @JoinColumn(name = "student_id", nullable = false)
     private Student student;
 
     @Column(nullable = false)

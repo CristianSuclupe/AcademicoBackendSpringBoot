@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,7 +49,7 @@ public class AuthService implements IAuthService{
     public LoginResponseDto login(LoginRequestDto request) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-            UserDetails user = userRepository.findByEmail(request.getUsername()).orElseThrow();
+            User user = userRepository.findByEmail(request.getUsername()).orElseThrow();
             String token = jwtService.getToken(user);
             return LoginResponseDto.builder()
                 .statusCode(HttpStatus.OK.value())

@@ -7,6 +7,8 @@ import java.util.function.Function;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.academico.backendjava.entities.User;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
@@ -19,14 +21,16 @@ public class JwtService implements IJwtService{
 
 
     @Override
-    public String getToken(UserDetails user) {
+    public String getToken(User user) {
         return getToken(new HashMap<>(), user);
     }
         
-    private String getToken(Map<String, Object> extraClaims, UserDetails user) {
+    private String getToken(Map<String, Object> extraClaims, User user) {
         return Jwts
             .builder()
             .claims(extraClaims)
+            .claim("userId", user.getUserId())
+            .claim("dni", user.getPerson().getDni())
             .subject(user.getUsername())
             .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
             .issuedAt(new Date(System.currentTimeMillis()))

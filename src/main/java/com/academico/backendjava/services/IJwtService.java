@@ -1,8 +1,6 @@
 package com.academico.backendjava.services;
-
-import org.springframework.security.core.userdetails.UserDetails;
-
+import com.academico.backendjava.entities.User;
 
 public interface IJwtService {
-    String getToken(UserDetails user);
+    String getToken(User user);
 }

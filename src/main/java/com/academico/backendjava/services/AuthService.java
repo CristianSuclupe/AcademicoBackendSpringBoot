@@ -53,6 +53,8 @@ public class AuthService implements IAuthService{
             UserDetails user = userRepository.findByEmail(request.getUsername()).orElseThrow();
             String token = jwtService.getToken(user);
             return LoginResponseDto.builder()
+                .statusCode(HttpStatus.OK.value())
+                .status((HttpStatus.OK))
                 .token(token)
                 .build();
         }

@@ -29,6 +29,9 @@ public class Class {
     private Long classId;
 
     @Column(nullable = false)
+    private String identifierName;
+
+    @Column(nullable = false)
     private String state;
 
     @Column(nullable = false)

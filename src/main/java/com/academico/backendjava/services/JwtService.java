@@ -31,7 +31,7 @@ public class JwtService implements IJwtService{
             .claims(extraClaims)
             .claim("userId", user.getUserId())
             .claim("dni", user.getPerson().getDni())
-            .claim("rol", user.getRole().getName())
+            .claim("role", user.getRole().getName())
             .subject(user.getUsername())
             .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
             //.expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 2))

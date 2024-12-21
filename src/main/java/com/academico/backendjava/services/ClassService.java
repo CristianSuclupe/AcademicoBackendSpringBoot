@@ -54,6 +54,9 @@ public class ClassService implements IClassService{
                 .result(result)
                 .build();
         }
+        catch (HttpException e) {
+            throw e;
+        }
         catch (Exception e){
             throw new HttpException(HttpStatus.INTERNAL_SERVER_ERROR, "Error de servidor");
         }

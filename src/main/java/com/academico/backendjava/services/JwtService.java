@@ -33,8 +33,8 @@ public class JwtService implements IJwtService{
             .claim("dni", user.getPerson().getDni())
             .claim("role", user.getRole().getName())
             .subject(user.getUsername())
-            .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
-            //.expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 2))
+            .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24)) //2 horas
+            //.expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 2)) 1 dia
             .issuedAt(new Date(System.currentTimeMillis()))
             .signWith(SECRET_KEY)
             .compact();

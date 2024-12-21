@@ -100,6 +100,9 @@ public class AuthService implements IAuthService{
                 .message("Usuario registrado con exito!")
                 .build();
         }
+        catch(HttpException e){
+            throw e;
+        }
         catch(Exception e) {
             throw new HttpException(HttpStatus.INTERNAL_SERVER_ERROR, "No se pudo registrar el usuario");
         }

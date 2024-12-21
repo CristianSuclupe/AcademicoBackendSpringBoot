@@ -1,4 +1,5 @@
 package com.academico.backendjava.services;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -6,6 +7,7 @@ import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.academico.backendjava.dtos.AllClassesDto;
 import com.academico.backendjava.dtos.ClassByTeacherDto;
 import com.academico.backendjava.dtos.HttpResponseDto;
 import com.academico.backendjava.entities.Class;
@@ -58,6 +60,37 @@ public class ClassService implements IClassService{
             throw e;
         }
         catch (Exception e){
+            throw new HttpException(HttpStatus.INTERNAL_SERVER_ERROR, "Error de servidor");
+        }
+    }
+
+    @Override
+    public HttpResponseDto<List<AllClassesDto>> findAllClases() {
+        try {
+            List<Class> classes = classRepository.findAllClassesEnable(new Date());
+            if(classes.isEmpty()) throw new HttpException(HttpStatus.NOT_FOUND, "No se encontraron clases disponibles");
+            List<AllClassesDto> result = classes.stream()
+                .map(aux -> AllClassesDto.builder()
+                    .classId(aux.getClassId())
+                    .identifierName(aux.getIdentifierName())
+                    .courseName(aux.getCourse().getName())
+                    .currentAmount(aux.getCurrentAmount())
+                    .maximunCapacity(aux.getMaximunCapacity())
+                    .teacherName(aux.getTeacher().getPerson().getFirstName() +" "+aux.getTeacher().getPerson().getLastName())
+                    .deadLine(aux.getDeadLine())
+                    .dni(aux.getTeacher().getPerson().getDni())
+                    .build())
+                .toList();
+                return HttpResponseDto.<List<AllClassesDto>>builder()
+                    .statusCode(HttpStatus.OK.value())
+                    .status(HttpStatus.OK)
+                    .result(result)
+                    .build();
+        }
+        catch(HttpException e) {
+            throw e;
+        }
+        catch(Exception e) {
             throw new HttpException(HttpStatus.INTERNAL_SERVER_ERROR, "Error de servidor");
         }
     }

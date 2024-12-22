@@ -10,5 +10,5 @@ public interface IClassService {
 
     HttpResponseDto<List<ClassByTeacherDto>> findByTeacher(String teacherId);
 
-    HttpResponseDto<List<AllClassesDto>> findAllClases();
+    HttpResponseDto<List<AllClassesDto>> findAllClases(String courseName);
 }

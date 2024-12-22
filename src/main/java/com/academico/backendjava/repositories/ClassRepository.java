@@ -13,6 +13,7 @@ public interface ClassRepository extends JpaRepository<Class, Long>{
     @Query("SELECT c FROM Class c JOIN c.teacher t WHERE t.id = ?1")
     List<Class> findByTeacherId(Long teacherId);
 
-    @Query("SELECT c FROM Class c WHERE c.maximunCapacity > c.currentAmount AND c.deadLine >= :today")
-    List<Class> findAllClassesEnable(Date today);
+    @Query("SELECT c FROM Class c WHERE c.maximunCapacity > c.currentAmount AND c.deadLine >= :today " +
+           "AND (:courseName IS NULL OR c.course.name LIKE %:courseName%)")
+    List<Class> findAllClassesEnable(Date today, String courseName);
 }

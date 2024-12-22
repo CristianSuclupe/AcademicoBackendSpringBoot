@@ -30,6 +30,7 @@ public class ClassService implements IClassService{
 
     private final TeacherRepository teacherRepository;
 
+
     @Override
     public HttpResponseDto<List<ClassByTeacherDto>> findByTeacher(String teacherId) {
         try {
@@ -65,9 +66,9 @@ public class ClassService implements IClassService{
     }
 
     @Override
-    public HttpResponseDto<List<AllClassesDto>> findAllClases() {
+    public HttpResponseDto<List<AllClassesDto>> findAllClases(String courseName) {
         try {
-            List<Class> classes = classRepository.findAllClassesEnable(new Date());
+            List<Class> classes = classRepository.findAllClassesEnable(new Date(), courseName);
             if(classes.isEmpty()) throw new HttpException(HttpStatus.NOT_FOUND, "No se encontraron clases disponibles");
             List<AllClassesDto> result = classes.stream()
                 .map(aux -> AllClassesDto.builder()

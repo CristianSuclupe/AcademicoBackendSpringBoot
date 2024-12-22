@@ -3,6 +3,7 @@ package com.academico.backendjava.controllers;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.academico.backendjava.services.ClassService;
 
@@ -25,8 +26,8 @@ public class ClassController {
     }
 
     @GetMapping("")
-    public ResponseEntity<?> getAllEnableClasses() {
-        return ResponseEntity.ok(classService.findAllClases());
+    public ResponseEntity<?> getAllEnableClasses(@RequestParam(required = false) String coursename) {
+        return ResponseEntity.ok(classService.findAllClases(coursename));
     }
     
     

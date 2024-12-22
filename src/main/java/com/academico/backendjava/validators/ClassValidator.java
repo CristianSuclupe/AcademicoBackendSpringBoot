@@ -1,5 +1,6 @@
 package com.academico.backendjava.validators;
 
+import java.text.Normalizer;
 import java.util.Date;
 
 import org.springframework.http.HttpStatus;

@@ -24,6 +24,7 @@ public class StudentService implements IStudentService{
     @Override
     public HttpResponseDto<UserInformationDto> findStudentByDni(String dni) {
         try {
+            if(dni == null || dni.isEmpty()) throw new HttpException(HttpStatus.BAD_REQUEST, "No se a enviado DNI");
             Optional<Person> optionalPerson = personRepository.findByDni(dni);
             Person person = optionalPerson.orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "Persona no encontrada"));
             Optional<Student> optionalStudent = studentRepository.findByPersonId(person.getPersonId());

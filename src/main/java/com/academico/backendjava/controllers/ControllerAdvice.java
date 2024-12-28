@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import com.academico.backendjava.dtos.ArgumentNotValidationError;
 import com.academico.backendjava.dtos.ErrorDto;
@@ -15,6 +16,16 @@ import com.academico.backendjava.exceptions.HttpException;
 
 @RestControllerAdvice
 public class ControllerAdvice {
+
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public ResponseEntity<ErrorDto> handleNoHandlerFoundException(NoHandlerFoundException ex) {
+        ErrorDto error = ErrorDto.builder()
+            .status(HttpStatus.NOT_FOUND)
+            .statusCode(HttpStatus.NOT_FOUND.value())
+            .message("No se encontró el endpoint")
+            .build();
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
 
     @ExceptionHandler(HttpException.class)
     public ResponseEntity<ErrorDto> httpExceptionHandler(HttpException ex) {

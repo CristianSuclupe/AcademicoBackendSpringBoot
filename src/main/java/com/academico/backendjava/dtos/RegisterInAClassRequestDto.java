@@ -1,5 +1,6 @@
 package com.academico.backendjava.dtos;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,9 +16,9 @@ public class RegisterInAClassRequestDto {
     @NotNull
     private Long classId;
 
-    @NotNull
-    private Long secretaryId;
+    @NotBlank
+    private String secretaryDni;
 
-    @NotNull
-    private Long studentId;
+    @NotBlank
+    private String studentDni;
 }

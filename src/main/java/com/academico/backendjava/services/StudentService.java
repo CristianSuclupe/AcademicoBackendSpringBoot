@@ -11,6 +11,7 @@ import com.academico.backendjava.exceptions.HttpException;
 import com.academico.backendjava.repositories.PersonRepository;
 import com.academico.backendjava.repositories.StudentRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -26,9 +27,9 @@ public class StudentService implements IStudentService{
         try {
             if(dni == null || dni.isEmpty()) throw new HttpException(HttpStatus.BAD_REQUEST, "No se a enviado DNI");
             Optional<Person> optionalPerson = personRepository.findByDni(dni);
-            Person person = optionalPerson.orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "Persona no encontrada"));
+            Person person = optionalPerson.orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "No se encontró al estudiante en el sistema"));
             Optional<Student> optionalStudent = studentRepository.findByPersonId(person.getPersonId());
-            Student student = optionalStudent.orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "Persona no encontrada"));
+            Student student = optionalStudent.orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "No se encontró al estudiante en el sistema"));
             UserInformationDto userInformation = UserInformationDto.builder()
                 .id(student.getStudentId())
                 .firstName(student.getPerson().getFirstName())
@@ -52,5 +53,42 @@ public class StudentService implements IStudentService{
             throw new HttpException(HttpStatus.INTERNAL_SERVER_ERROR, "Error de servidor");
         }
     }
+
+    @Override
+    @Transactional
+    public HttpResponseDto<String> registerStudent(UserInformationDto data) {
+        try {
+            Person person = Person.builder()
+                .dni(data.getDni())
+                .firstName(data.getFirstName())
+                .middleName(data.getMiddleName())
+                .lastName(data.getLastName())
+                .address(data.getAddress())
+                .phoneNumber(data.getPhoneNumber())
+                .birthday(data.getBirthday())
+                .build();
+            
+            Student student = Student.builder()
+                .person(person)
+                .build();
+            
+            personRepository.save(person);
+            studentRepository.save(student);
+
+            return HttpResponseDto.<String>builder()
+                .statusCode(HttpStatus.OK.value())
+                .status(HttpStatus.OK)
+                .result("Estudiante registrado")
+                .build();
+        }
+        catch(HttpException e) {
+            throw e;
+        }
+        catch(Exception e) {
+            throw new HttpException(HttpStatus.INTERNAL_SERVER_ERROR, "Error de servidor");
+        }
+    }
+
+    
 
 }

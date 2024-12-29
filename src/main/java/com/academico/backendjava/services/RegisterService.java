@@ -8,11 +8,13 @@ import org.springframework.stereotype.Service;
 import com.academico.backendjava.dtos.HttpResponseDto;
 import com.academico.backendjava.dtos.RegisterInAClassRequestDto;
 import com.academico.backendjava.entities.Class;
+import com.academico.backendjava.entities.Person;
 import com.academico.backendjava.entities.Register;
 import com.academico.backendjava.entities.Secretary;
 import com.academico.backendjava.entities.Student;
 import com.academico.backendjava.exceptions.HttpException;
 import com.academico.backendjava.repositories.ClassRepository;
+import com.academico.backendjava.repositories.PersonRepository;
 import com.academico.backendjava.repositories.RegisterRepository;
 import com.academico.backendjava.repositories.SecretaryRepository;
 import com.academico.backendjava.repositories.StudentRepository;
@@ -33,6 +35,7 @@ public class RegisterService implements IRegisterService {
 
     private final ClassRepository classRepository;
 
+
     private final ClassValidator classValidator;
 
     @Override
@@ -40,10 +43,10 @@ public class RegisterService implements IRegisterService {
     public HttpResponseDto<String> registerStudentInAClass(RegisterInAClassRequestDto request) {
         try {
             Optional<Class> classOptional = classRepository.findById(request.getClassId());
-            Class class1 = classOptional.orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "No se encontró ninguna clase"));
-            Optional<Secretary> secretaryOptional = secretaryRepository.findById(request.getSecretaryId());
-            Secretary secretary = secretaryOptional.orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "No se encontró al docente"));
-            Optional<Student> studentOptional = studentRepository.findById(request.getStudentId());
+            Class class1 = classOptional.orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "No se encontró la clase seleccionada"));
+            Optional<Secretary> secretaryOptional = secretaryRepository.findByDni(request.getSecretaryDni());
+            Secretary secretary = secretaryOptional.orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "No se encontró al secretario"));
+            Optional<Student> studentOptional = studentRepository.findByDni(request.getStudentDni());
             Student student = studentOptional.orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "No se encontró al estudiante"));
             classValidator.validateMaxStudents(class1);
             classValidator.validateInscriptionDate(class1);

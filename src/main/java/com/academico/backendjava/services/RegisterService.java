@@ -8,17 +8,16 @@ import org.springframework.stereotype.Service;
 import com.academico.backendjava.dtos.HttpResponseDto;
 import com.academico.backendjava.dtos.RegisterInAClassRequestDto;
 import com.academico.backendjava.entities.Class;
-import com.academico.backendjava.entities.Person;
 import com.academico.backendjava.entities.Register;
 import com.academico.backendjava.entities.Secretary;
 import com.academico.backendjava.entities.Student;
 import com.academico.backendjava.exceptions.HttpException;
 import com.academico.backendjava.repositories.ClassRepository;
-import com.academico.backendjava.repositories.PersonRepository;
 import com.academico.backendjava.repositories.RegisterRepository;
 import com.academico.backendjava.repositories.SecretaryRepository;
 import com.academico.backendjava.repositories.StudentRepository;
 import com.academico.backendjava.validators.ClassValidator;
+import com.academico.backendjava.validators.RegisterValidator;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -35,8 +34,9 @@ public class RegisterService implements IRegisterService {
 
     private final ClassRepository classRepository;
 
-
     private final ClassValidator classValidator;
+
+    private final RegisterValidator registerValidator;
 
     @Override
     @Transactional
@@ -48,6 +48,7 @@ public class RegisterService implements IRegisterService {
             Secretary secretary = secretaryOptional.orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "No se encontró al secretario"));
             Optional<Student> studentOptional = studentRepository.findByDni(request.getStudentDni());
             Student student = studentOptional.orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "No se encontró al estudiante"));
+            registerValidator.validateDuplicateStudentRegisterInClass(student.getStudentId(), class1.getClassId());
             classValidator.validateMaxStudents(class1);
             classValidator.validateInscriptionDate(class1);
             Register register = Register.builder()
@@ -68,7 +69,7 @@ public class RegisterService implements IRegisterService {
             throw e;
         }
         catch(Exception e) {
-            throw new HttpException(HttpStatus.INTERNAL_SERVER_ERROR, "Error de servidor");
+            throw new HttpException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 

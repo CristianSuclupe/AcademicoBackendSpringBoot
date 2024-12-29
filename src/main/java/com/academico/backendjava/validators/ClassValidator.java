@@ -8,15 +8,14 @@ import org.springframework.stereotype.Component;
 import com.academico.backendjava.entities.Class;
 import com.academico.backendjava.exceptions.HttpException;
 
+import lombok.NoArgsConstructor;
+
 @Component
+@NoArgsConstructor
 public class ClassValidator {
 
     public void validateMaxStudents(Class class1) {
-        System.out.println(class1.getMaximunCapacity() + "la cantidad actual" + class1.getCurrentAmount());
-        if(class1.getMaximunCapacity() <= class1.getCurrentAmount()) {
-            System.out.println("No se permiten mas");
-            throw new HttpException(HttpStatus.BAD_REQUEST, "Esta clase no permite más estudientes");
-        }
+        if(class1.getMaximunCapacity() <= class1.getCurrentAmount()) throw new HttpException(HttpStatus.BAD_REQUEST, "Esta clase no permite más estudientes");
     }
 
     public void validateInscriptionDate(Class class1) {

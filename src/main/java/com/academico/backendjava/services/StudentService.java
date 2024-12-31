@@ -1,9 +1,12 @@
 package com.academico.backendjava.services;
 
+import java.util.List;
 import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import com.academico.backendjava.dtos.HttpResponseDto;
+import com.academico.backendjava.dtos.StudentPerClassProjection;
 import com.academico.backendjava.dtos.UserInformationDto;
 import com.academico.backendjava.entities.Person;
 import com.academico.backendjava.entities.Student;
@@ -50,7 +53,7 @@ public class StudentService implements IStudentService{
             throw e;
         }
         catch(Exception e) {
-            throw new HttpException(HttpStatus.INTERNAL_SERVER_ERROR, "Error de servidor");
+            throw new HttpException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
@@ -85,7 +88,25 @@ public class StudentService implements IStudentService{
             throw e;
         }
         catch(Exception e) {
-            throw new HttpException(HttpStatus.INTERNAL_SERVER_ERROR, "Error de servidor");
+            throw new HttpException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
+
+    @Override
+    public HttpResponseDto<List<StudentPerClassProjection>> listStudentPerClass(Long classId) {
+        try {
+            List<StudentPerClassProjection> studentList = studentRepository.ListStudentsPerClass(classId);
+            return HttpResponseDto.<List<StudentPerClassProjection>>builder()
+                .statusCode(HttpStatus.OK.value())
+                .status(HttpStatus.OK)
+                .result(studentList)
+                .build();
+        }
+        catch(HttpException e) {
+            throw e;
+        }
+        catch(Exception e) {
+            throw new HttpException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 

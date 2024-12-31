@@ -61,7 +61,7 @@ public class AuthService implements IAuthService{
             throw new HttpException(HttpStatus.FORBIDDEN, "Usuario y/o contraseña incorrectos");
         }
         catch(Exception e) {
-            throw new HttpException(HttpStatus.INTERNAL_SERVER_ERROR, "Error de servidor");
+            throw new HttpException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
         
     }
@@ -104,7 +104,7 @@ public class AuthService implements IAuthService{
             throw e;
         }
         catch(Exception e) {
-            throw new HttpException(HttpStatus.INTERNAL_SERVER_ERROR, "No se pudo registrar el usuario");
+            throw new HttpException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 

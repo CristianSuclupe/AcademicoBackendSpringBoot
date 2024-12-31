@@ -61,7 +61,7 @@ public class ClassService implements IClassService{
             throw e;
         }
         catch (Exception e){
-            throw new HttpException(HttpStatus.INTERNAL_SERVER_ERROR, "Error de servidor");
+            throw new HttpException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
@@ -92,7 +92,7 @@ public class ClassService implements IClassService{
             throw e;
         }
         catch(Exception e) {
-            throw new HttpException(HttpStatus.INTERNAL_SERVER_ERROR, "Error de servidor");
+            throw new HttpException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 

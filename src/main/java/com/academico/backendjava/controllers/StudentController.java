@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 
+
 @Controller
 @RequestMapping("/v1/api/student")
 @RequiredArgsConstructor
@@ -32,6 +33,12 @@ public class StudentController {
     public ResponseEntity<?> registerStudent(@Valid @RequestBody UserInformationDto request) {
         return ResponseEntity.ok(studentService.registerStudent(request));
     }
+
+    @GetMapping("class/{classId}")
+    public ResponseEntity<?> listStudentPerClass(@PathVariable Long classId) {
+        return ResponseEntity.ok(studentService.listStudentPerClass(classId));
+    }
+    
     
     
 }

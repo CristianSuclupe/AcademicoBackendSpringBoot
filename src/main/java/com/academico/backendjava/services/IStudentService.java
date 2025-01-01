@@ -3,7 +3,6 @@ package com.academico.backendjava.services;
 import java.util.List;
 
 import com.academico.backendjava.dtos.HttpResponseDto;
-import com.academico.backendjava.dtos.StudentPerClass;
 import com.academico.backendjava.dtos.StudentPerClassProjection;
 import com.academico.backendjava.dtos.UserInformationDto;
 

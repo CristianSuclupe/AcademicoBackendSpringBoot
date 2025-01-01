@@ -6,4 +6,5 @@ public interface StudentPerClassProjection {
     String getName();
     String getDni();
     Float getScore();
+    Integer getExistRegisterNote();
 }

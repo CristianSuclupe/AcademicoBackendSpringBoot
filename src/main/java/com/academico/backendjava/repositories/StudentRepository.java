@@ -20,7 +20,8 @@ public interface StudentRepository extends JpaRepository<Student, Long>{
     @Query(value = "SELECT s.student_id AS studentId, p.last_name AS lastName, " +
                    "CASE WHEN p.middle_name IS NOT NULL AND p.middle_name != '' THEN CONCAT(p.first_name, ' ', p.middle_name) ELSE p.first_name END AS name, " +
                    "p.dni AS dni, " +
-                   "CASE WHEN rn.register_note_id IS NOT NULL THEN rn.score ELSE 0 END AS score " +
+                   "CASE WHEN rn.register_note_id IS NOT NULL THEN rn.score ELSE 0 END AS score, " +
+                   "CASE WHEN rn.register_note_id IS NOT NULL THEN 1 ELSE 0 END AS existRegisterNote " +
                    "FROM persons p " +
                    "JOIN students s ON p.person_id = s.person_id " +
                    "JOIN registers r ON s.student_id = r.student_id " +

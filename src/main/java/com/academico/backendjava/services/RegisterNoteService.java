@@ -9,11 +9,14 @@ import org.springframework.stereotype.Service;
 
 import com.academico.backendjava.dtos.HttpResponseDto;
 import com.academico.backendjava.dtos.RegisterNoteRequestDto;
+import com.academico.backendjava.entities.AcademicProduct;
 import com.academico.backendjava.entities.RegisterNote;
 import com.academico.backendjava.entities.Student;
 import com.academico.backendjava.exceptions.HttpException;
+import com.academico.backendjava.repositories.AcademicProductRepository;
 import com.academico.backendjava.repositories.RegisterNoteRepository;
 import com.academico.backendjava.repositories.StudentRepository;
+import com.academico.backendjava.validators.RegisterNoteValidator;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -26,16 +29,24 @@ public class RegisterNoteService implements IRegisterNoteService{
 
     private final StudentRepository studentRepository;
 
+    private final AcademicProductRepository academicProductRepository;
+
+    private final RegisterNoteValidator registerNoteValidator;
+
     @Override
     @Transactional
     public HttpResponseDto<String> saveRegisterNote(List<RegisterNoteRequestDto> request) {
         try {
+            Optional<AcademicProduct> optionalAcademicProduct = academicProductRepository.findById(request.get(0).getAcademicProductId());
+            AcademicProduct academicProduct = optionalAcademicProduct.orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "Producto académico no encontrado"));
+            registerNoteValidator.validateNumberOfStudents(request, academicProduct.getClass_().getClassId());
             List<RegisterNote> registerNotes = request.stream()
             .map(aux -> {
                 Optional<Student> optionalStudent = studentRepository.findById(aux.getStudentId());
-                Student student = optionalStudent.orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "Student not found"));
+                Student student = optionalStudent.orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "Estudiante no encontrado"));
                 return RegisterNote.builder()
                     .student(student)
+                    .academicProduct(academicProduct)
                     .score(aux.getScore())
                     .build();
             })

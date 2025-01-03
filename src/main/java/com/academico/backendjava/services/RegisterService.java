@@ -57,8 +57,8 @@ public class RegisterService implements IRegisterService {
                 .secretary(secretary)
                 .build();
             registerRepository.save(register);
-            class1.setCurrentAmount(class1.getCurrentAmount() + 1);
-            classRepository.save(class1);
+            // class1.setCurrentAmount(class1.getCurrentAmount() + 1);
+            // classRepository.save(class1);
             return HttpResponseDto.<String>builder()
                 .statusCode(HttpStatus.OK.value())
                 .status(HttpStatus.OK)

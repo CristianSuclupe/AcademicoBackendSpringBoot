@@ -14,6 +14,8 @@ import com.academico.backendjava.dtos.ArgumentNotValidationError;
 import com.academico.backendjava.dtos.ErrorDto;
 import com.academico.backendjava.exceptions.HttpException;
 
+import jakarta.validation.ConstraintViolationException;
+
 @RestControllerAdvice
 public class ControllerAdvice {
 
@@ -48,6 +50,25 @@ public class ControllerAdvice {
                                             .statusCode(HttpStatus.BAD_REQUEST.value())
                                             .message(errors)
                                             .build();
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    //List
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ArgumentNotValidationError> handleConstraintViolationException(ConstraintViolationException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getConstraintViolations().forEach(violation -> {
+            String fieldName = violation.getPropertyPath().toString();
+            String errorMessage = violation.getMessage();
+            errors.put(fieldName, errorMessage);
+        });
+
+        ArgumentNotValidationError error = ArgumentNotValidationError.builder()
+            .status(HttpStatus.BAD_REQUEST)
+            .statusCode(HttpStatus.BAD_REQUEST.value())
+            .message(errors)
+            .build();
+
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 }

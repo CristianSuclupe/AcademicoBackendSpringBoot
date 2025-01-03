@@ -3,6 +3,7 @@ package com.academico.backendjava.controllers;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.academico.backendjava.dtos.UserInformationDto;
 import com.academico.backendjava.services.StudentService;
@@ -35,8 +36,8 @@ public class StudentController {
     }
 
     @GetMapping("class/{classId}")
-    public ResponseEntity<?> listStudentPerClass(@PathVariable Long classId) {
-        return ResponseEntity.ok(studentService.listStudentPerClass(classId));
+    public ResponseEntity<?> listStudentPerClass(@PathVariable Long classId, @RequestParam(required = false) Long productAcademicoId) {
+        return ResponseEntity.ok(studentService.listStudentPerClass(classId, productAcademicoId));
     }
     
     

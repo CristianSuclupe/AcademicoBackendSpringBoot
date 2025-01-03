@@ -93,9 +93,9 @@ public class StudentService implements IStudentService{
     }
 
     @Override
-    public HttpResponseDto<List<StudentPerClassProjection>> listStudentPerClass(Long classId) {
+    public HttpResponseDto<List<StudentPerClassProjection>> listStudentPerClass(Long classId, Long productAcademicoId) {
         try {
-            List<StudentPerClassProjection> studentList = studentRepository.ListStudentsPerClass(classId);
+            List<StudentPerClassProjection> studentList = studentRepository.ListStudentsPerClass(classId, productAcademicoId);
             return HttpResponseDto.<List<StudentPerClassProjection>>builder()
                 .statusCode(HttpStatus.OK.value())
                 .status(HttpStatus.OK)

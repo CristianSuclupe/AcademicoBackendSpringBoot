@@ -12,5 +12,5 @@ public interface IStudentService {
 
     HttpResponseDto<String> registerStudent(UserInformationDto data);
 
-    HttpResponseDto<List<StudentPerClassProjection>> listStudentPerClass(Long classId);
+    HttpResponseDto<List<StudentPerClassProjection>> listStudentPerClass(Long classId, Long productAcademicoId);
 }

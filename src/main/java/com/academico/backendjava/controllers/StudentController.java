@@ -36,8 +36,9 @@ public class StudentController {
     }
 
     @GetMapping("class/{classId}")
-    public ResponseEntity<?> listStudentPerClass(@PathVariable Long classId, @RequestParam(required = false) Long productAcademicoId) {
-        return ResponseEntity.ok(studentService.listStudentPerClass(classId, productAcademicoId));
+    public ResponseEntity<?> listStudentPerClassAndProductAcademic(@PathVariable Long classId, @RequestParam Long productAcademicId) {
+        System.out.println(productAcademicId);
+        return ResponseEntity.ok(studentService.listStudentPerClassAndProductAcademic(classId, productAcademicId));
     }
     
     

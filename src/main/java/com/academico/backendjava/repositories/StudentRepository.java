@@ -26,7 +26,7 @@ public interface StudentRepository extends JpaRepository<Student, Long>{
                    "JOIN students s ON p.person_id = s.person_id " +
                    "JOIN registers r ON s.student_id = r.student_id " +
                    "JOIN classes c ON r.class_id = c.class_id " +
-                   "LEFT JOIN register_notes rn ON rn.student_id = s.student_id " +
-                   "WHERE c.class_id = :classId AND (rn.academic_product_id IS NULL OR rn.academic_product_id = :academicProductId)", nativeQuery = true)
-    List<StudentPerClassProjection> ListStudentsPerClass(Long classId, Long academicProductId);
+                   "LEFT JOIN register_notes rn ON rn.student_id = s.student_id AND rn.academic_product_id = :productAcademicId " +
+                   "WHERE c.class_id = :classId ", nativeQuery = true)
+    List<StudentPerClassProjection> ListStudentsPerClassAndProductAcademic(Long classId, Long productAcademicId);
 }

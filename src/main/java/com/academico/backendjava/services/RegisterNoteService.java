@@ -39,6 +39,7 @@ public class RegisterNoteService implements IRegisterNoteService{
         try {
             Optional<AcademicProduct> optionalAcademicProduct = academicProductRepository.findById(request.get(0).getAcademicProductId());
             AcademicProduct academicProduct = optionalAcademicProduct.orElseThrow(() -> new HttpException(HttpStatus.NOT_FOUND, "Producto académico no encontrado"));
+            registerNoteValidator.validarExistRegisterNote(academicProduct.getAcademicProductId());
             registerNoteValidator.validateNumberOfStudents(request, academicProduct.getClass_().getClassId());
             List<RegisterNote> registerNotes = request.stream()
             .map(aux -> {
